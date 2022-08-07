@@ -20,7 +20,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -2619,5 +2621,29 @@ public class ApiProjectServiceImpl extends CoTopComponent implements ApiProjectS
 		}
 		
 		return returnOssComponentsLicenseList;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectProjectCvssScore(String prjId, String score) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+
+		paramMap.put("projectId", prjId);
+		paramMap.put("cvssScore", score);
+
+		List<Map<String, Object>> discoveredList = apiProjectMapper.selectDiscoveredList(paramMap);
+		List<String> duplicatedStr = new ArrayList<String>();
+		List<Map<String, Object>> duplicatedPrjList = new ArrayList<Map<String, Object>>();
+
+		for(Map<String, Object> discovered : discoveredList) {
+			String s = (String) discovered.get("cveId");
+			if(!duplicatedStr.contains(s)) {
+				if (Float.parseFloat(score) >= 9.0) {
+					duplicatedStr.add(s);
+				}
+				duplicatedPrjList.add(discovered);
+			}
+		}
+
+		return duplicatedPrjList;
 	}
 }

@@ -61,4 +61,6 @@ public interface ApiProjectService {
 	public List<String> getPackageFileList(String prjId);
 
 	public void registBom(String prjId, String string);
+
+	public List<Map<String, Object>> selectProjectCvssScore(String prjId, String score);
 }

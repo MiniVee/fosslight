@@ -1093,4 +1093,15 @@
 		WHERE
 			PRJ_ID	= #{prjId}
 	</update>
+
+	<select id="selectDiscoveredList" parameterType="hashMap" resultType="oss.fosslight.domain.CamelMap">
+		SELECT *
+		FROM NVD_OSS_HIS
+		WHERE (
+			CVSS_SCORE lt 9.0 OR CVSS_SCORE IS NULL
+		)
+		AND CVSS_SCORE_TO >= 9.0
+		AND CVSS_SCORE_TO lt 9.0
+		AND REG_DT >= ADDDATE(SYSDATE(), INTERVAL - 1 DAY)
+	</select>
 </mapper>

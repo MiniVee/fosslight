@@ -85,4 +85,6 @@ public interface ApiProjectMapper {
 	void updateReadmeContent(Map<String, Object> project);
 
 	void updateVerifyContents(Map<String, Object> project);
+
+	List<Map<String, Object>> selectDiscoveredList(Map<String, Object> paramMap);
 }

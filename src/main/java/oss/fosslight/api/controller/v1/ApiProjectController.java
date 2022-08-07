@@ -1296,4 +1296,30 @@ public class ApiProjectController extends CoTopComponent {
 		
 		return responseService.getSingleResult(resultMap);
 	}
+
+	@ApiOperation(value = "Select Project Vulnerability Score ", notes = "Project Vulnerability Score Return")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "_token", value = "token", required = true, dataType = "String", paramType = "header")
+	})
+	@GetMapping(value = {Url.API.FOSSLIGHT_API_PROJECT_CVSS_SCORE})
+	public CommonResult selectVulnerabilityScore(
+			@RequestHeader String _token,
+			@ApiParam(value = "Project id", required = true) @RequestParam(required = true) String projectId,
+			@ApiParam(value = "CVSS Score", required = false) @RequestParam(required = false) String cvssScore){
+
+		userService.checkApiUserAuth(_token);
+		Map<String, Object> resultMap = new HashMap<>();
+
+		try {
+			
+			List<Map<String, Object>> content = apiProjectService.selectProjectCvssScore(projectId, cvssScore);
+
+			resultMap.put("content", content);
+			return responseService.getSingleResult(content);
+
+		} catch (Exception e) {
+			return responseService.getFailResult(CoConstDef.CD_OPEN_API_UNKNOWN_ERROR_MESSAGE
+					, CoCodeManager.getCodeString(CoConstDef.CD_OPEN_API_MESSAGE, CoConstDef.CD_OPEN_API_UNKNOWN_ERROR_MESSAGE));
+		}
+	}
 }

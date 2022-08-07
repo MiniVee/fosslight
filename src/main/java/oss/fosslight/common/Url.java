@@ -749,6 +749,9 @@ public final class Url {
 			
 			/** API BOM COMPARE */
 			public static final String FOSSLIGHT_API_PROJECT_BOM_COMPARE		= "/prj_bom_compare";
+
+			/** API Project CVSS_SCORE 조회 */
+			public static final String FOSSLIGHT_API_PROJECT_CVSS_SCORE		= "/cvssScore_search";
 			
 			/** API OSS Report upload */
 			public static final String FOSSLIGHT_API_OSS_REPORT_SRC			= "/oss_report_src";
